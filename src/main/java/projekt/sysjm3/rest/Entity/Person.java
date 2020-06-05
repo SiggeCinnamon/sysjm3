@@ -3,6 +3,8 @@ package projekt.sysjm3.rest.Entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
+
 @Entity
 public class Person {
 

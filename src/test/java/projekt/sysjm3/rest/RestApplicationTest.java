@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import projekt.sysjm3.rest.Controller.MainController;
@@ -19,6 +21,8 @@ import projekt.sysjm3.rest.Controller.WebController;
 import projekt.sysjm3.rest.Entity.Person;
 import projekt.sysjm3.rest.Repository.PersonRepository;
 
+@AutoConfigureMockMvc
+@SpringBootTest
 class RestApplicationTest {
 
 	@Autowired
@@ -64,7 +68,7 @@ class RestApplicationTest {
 	@Test
 	@DisplayName("Test1")
 	public void testNumberOfRows() {
-		assertTrue(personRepo.findAll().equals(3));
+		assertTrue(personRepo.findAll().equals(4));
 	}
 
 	@Test

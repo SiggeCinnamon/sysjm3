@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"projekt.sysjm3.rest"},{"l":"projekt.sysjm3.rest.Controller"},{"l":"projekt.sysjm3.rest.Entity"},{"l":"projekt.sysjm3.rest.Repository"},{"l":"projekt.sysjm3.rest.Service"}]
