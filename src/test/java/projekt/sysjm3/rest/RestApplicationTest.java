@@ -23,6 +23,7 @@ class RestApplicationTest {
 
 	@Autowired
 	private static WebController wb;
+
 	@Autowired
 	private static MainController mb;
 
@@ -93,11 +94,6 @@ class RestApplicationTest {
 	@Test
 	void testAbout() throws Exception {
 		mockie.perform(get("/about")).andExpect(status().isOk()).andExpect(view().name("about"));
-	}
-
-	@Test
-	void testWebApp() {
-
 	}
 
 	@Test

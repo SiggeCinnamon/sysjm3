@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebController {
 
 	/**
-	 * Sets index.html to be the startiong page.
+	 * Sets index.html to be the landing page.
 	 * 
 	 * @return
 	 */
@@ -17,6 +17,7 @@ public class WebController {
 	}
 
 	/**
+	 * To get to the about.html.
 	 * @return
 	 */
 	@GetMapping("/about")

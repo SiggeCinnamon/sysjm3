@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import projekt.sysjm3.rest.Entity.Person;
 import projekt.sysjm3.rest.Service.PersonService;
 
-/**
- * @author matti
- *
- */
+
 @RestController
 public class MainController {
 
@@ -68,6 +65,12 @@ public class MainController {
 		return person.getId();
 	}
 
+	/**
+	 * Use to add or update an existing person in the database.
+	 * @param id
+	 * @param person
+	 * @return
+	 */
 	@PutMapping("/persons/{id}")
 	public ResponseEntity<?> updatePerson(@PathVariable("id") int id, @RequestBody Person person) {
 		personService.saveOrUpdate(person);
