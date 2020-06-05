@@ -1,112 +1,147 @@
 package projekt.sysjm3.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.BeforeAll;
+import java.util.ArrayList;
+
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
-import projekt.sysjm3.rest.Controller.MainController;
-import projekt.sysjm3.rest.Controller.WebController;
 import projekt.sysjm3.rest.Entity.Person;
 import projekt.sysjm3.rest.Repository.PersonRepository;
+import projekt.sysjm3.rest.Service.PersonService;
 
-@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class RestApplicationTest {
+public class RestApplicationTest {
 
 	@Autowired
-	private static WebController wb;
+	PersonRepository pr;
 
 	@Autowired
-	private static MainController mb;
+	PersonService ps;
 
-	@Autowired
-	private static PersonRepository personRepo;
+	public Person person;
+	public MockMvc mockie;
 
-	private static Person person;
-	private static MockMvc mockie;
-
-	@BeforeAll
-	public static void beforeAllTests() {
-
-		person = new Person('1', "Mattias", "A", 20, 'm', 860215, "City", "Country");
-		personRepo.save(person);
-
-		person = new Person('2', "Emir", "M", 20, 'm', 860215 + 1, "City", "Country");
-		personRepo.save(person);
-
-		person = new Person('3', "Tanvir", "S", 20, 'm', 860215 + 2, "City", "Country");
-		personRepo.save(person);
-
-		person = new Person('4', "Susanna", "M", 20, 'm', 860215 + 3, "City", "Country");
-		personRepo.save(person);
-
-		person = new Person('5', "Jonas", "Sjöstedt", 41, 'm', 860215 + 4, "Malmö", "Sweden");
-		personRepo.save(person);
-
+	@Test
+	@DisplayName("Test 1")
+	@Transactional
+	public void testAllPersons() throws Exception {
+		ArrayList<Person> persons = (ArrayList<Person>) pr.findAll();
+		assertFalse(persons.isEmpty());
+		assertEquals(4, persons.size());
 	}
 
 	@Test
-	void testGetRowsAfterDelete() {
-		// delete last person
-		personRepo.delete(person);
-
-		assertEquals(3, personRepo.count());
+	@DisplayName("Test 2")
+	@Transactional
+	public void testFindById() throws Exception {
+		Person p = pr.findById(1);
+		assertNotNull(p);
 	}
 
 	@Test
-	@DisplayName("Test1")
+	@DisplayName("Test 3")
+	@Transactional
+	public void testDeletePerson() throws Exception {
+		pr.deleteById(1);
+		assertEquals(3,pr.findById(1));
+	}
+
+	@Test
+	@DisplayName("Test 4")
+	@Transactional
+	public void contextLoads() {
+		assertThat(pr).isNotNull();
+	}
+
+	@Test
+	@DisplayName("Test 5")
+	@Transactional
 	public void testNumberOfRows() {
-		assertTrue(personRepo.findAll().equals(4));
+		assertTrue(pr.findAll().equals(4));
 	}
 
 	@Test
-	@DisplayName("Test4")
-	public void testIfRowExists() {
-		assertFalse(personRepo.existsById(person.id));
-	}
-
-	@Test
+	@DisplayName("Test5")
+	@Transactional
 	public void testGetExpectedRows() {
-		assertEquals(4, personRepo.count());
-
+		assertEquals(4, pr.count());
 	}
 
 	@Test
-	void contextLoads() {
-
-		assertThat(wb).isNotNull();
-		assertThat(mb).isNotNull();
-	}
-
-	@Test
-	void testIndex() throws Exception {
-		mockie.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
-	}
-
-	@Test
-	void testAbout() throws Exception {
-		mockie.perform(get("/about")).andExpect(status().isOk()).andExpect(view().name("about"));
-	}
-
-	@Test
+	@DisplayName("Test 6")
+	@Transactional
 	public void testFieldFirstName() throws Exception {
 		Person person = new Person();
 		person.setFirstName("MattiasAndersen");
 
 		assertThat(person.getFirstName()).isEqualTo("MattiasAndersen");
 	}
-
+	
+	
+//	@Test
+//	@DisplayName("Test 4")
+//	public void test
+//	private static WebController wc= new WebController();
+//	
+//	private static MainController mc = new MainController();
+//	
+//	private static PersonRepository personRepo;
+//
+//	private static Person person;
+//
+//	private static MockMvc mockie;
+//	
+//	
+//
+//	@BeforeClass
+//	public void beforeAllTests() {
+//
+////		person = new Person(1, "Mattias", "Afg", 20, 'm', 860215, "City", "Country");
+////		personRepo.save(person);
+////
+////		person = new Person(2, "Emir", "Mfg", 20, 'm', 860215, "City", "Country");
+////		personRepo.save(person);
+////
+////		person = new Person(3, "Tanvir", "Sfg", 20, 'm', 860215, "City", "Country");
+////		personRepo.save(person);
+////
+////		person = new Person(4, "Susanna", "Mfg", 20, 'm', 860215, "City", "Country");
+////		personRepo.save(person);
+////
+////		person = new Person(5, "Jonas", "Sjöstedtfg", 41, 'm', 860215, "Malmö", "Sweden");
+////		personRepo.save(person);}
+//	@Test
+//	@DisplayName("Test2")
+//	void testGetRowsAfterDelete() {
+//		// delete last person
+//		personRepo.delete(person);
+//
+//		assertEquals(5, personRepo.count());
+//	}
+//	@Test
+//	@DisplayName("Test6")
+//	void testIndex() throws Exception {
+//		mockie.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
+//	}
+//
+//	@Test
+//	@DisplayName("Test7")
+//	public void testAbout() throws Exception {
+//		mockie.perform(get("/about")).andExpect(status().isOk()).andExpect(view().name("about"));
+//	}
+//
 
 }
